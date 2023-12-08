@@ -54,6 +54,10 @@
                                 <a class="nav-link {{url()->current() == route('jobs.all') ? 'active' : ''}}"
                                    href="{{route('jobs.all')}}">Scrap Job List</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{url()->current() == route('settings') ? 'active' : ''}}"
+                                   href="{{route('settings')}}">Settings</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

@@ -171,4 +171,23 @@ class HomeController extends Controller
             'searching' => $searching > 0 ? $searching * self::PAGESIZE : 0
         ]);
     }
+
+    public function settings()
+    {
+        return view('settings');
+    }
+
+    public function updateDatabase()
+    {
+        \Artisan::call('migrate');
+        \Artisan::call('optimize:clear');
+
+        return back()->with('success', 'Database has been updated successfully!');
+    }
+
+    public function clearCache()
+    {
+        \Artisan::call('optimize:clear');
+        return back()->with('success', 'Cache has been cleared successfully!');
+    }
 }

@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class KeywordsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function keywords()
     {
         $keywords = Keywords::orderByDesc('id')->paginate(20);

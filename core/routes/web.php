@@ -40,3 +40,8 @@ Route::get('/keywords/delete/{id}', [KeywordsController::class, 'keywordsDelete'
 Route::get('/keywords/edit/{id}', [KeywordsController::class, 'keywordsEdit'])->name('keywords.edit');
 Route::post('/keywords/update', [KeywordsController::class, 'keywordsUpdate']);
 Route::get('/keywords/status/{id}', [KeywordsController::class, 'keywordsStatus'])->name('keywords.status');
+
+Route::get('/settings', [HomeController::class, 'settings'])->name('settings');
+Route::get('/settings/update', [HomeController::class, 'updateDatabase'])->name('settings.database.update');
+Route::get('/cache/clear', [HomeController::class, 'clearCache'])->name('settings.cache.clear');
+
