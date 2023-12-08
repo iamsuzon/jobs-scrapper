@@ -39,6 +39,15 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function customLoginForm()
+    {
+        if (auth()->check()) {
+            return redirect()->intended('dashboard');
+        }
+
+        return to_route('login');
+    }
+
     public function customLogin(Request $request)
     {
         $validated = $this->validate($request, [

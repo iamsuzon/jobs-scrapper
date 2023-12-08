@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\SearchJobList;
 use Goutte\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -21,9 +22,13 @@ class ScrapingJob implements ShouldQueue
      */
 
     public string $url;
-    public function __construct($url)
+    public int $page_number;
+    public array $keyWords;
+    public function __construct($url, $page_number, $keyWords)
     {
         $this->url = $url;
+        $this->page_number = $page_number;
+        $this->keyWords = $keyWords;
     }
 
     /**
@@ -33,7 +38,7 @@ class ScrapingJob implements ShouldQueue
      */
     public function handle()
     {
-        $keyWords = ['fitter', 'assembler', 'worker'];
+        $keyWords = $this->keyWords;
 
         $this->setTimeMemoryLimit();
 
@@ -62,9 +67,33 @@ class ScrapingJob implements ShouldQueue
                     }
                 }
             }
-        }
 
-        \Log::info('ScrapingJob: ' . json_encode($finalResults));
+            if (count($finalResults) > 0) {
+                $this->saveToDatabase($finalResults);
+            }
+        }
+    }
+
+    private function saveToDatabase($finalResults): void
+    {
+        foreach ($finalResults as $item)
+        {
+            $item['status'] = 'unapplied';
+            $item['page'] = $this->page_number;
+            $item['content'] = json_encode($item);
+
+            SearchJobList::firstOrCreate(
+                [
+                    "ref" => $item['ref']
+                ],
+                [
+                    "ref" => $item['ref'],
+                    "title" => $item['title'],
+                    "content" => $item['content'],
+                    "status" => $item['status'],
+                ]
+            );
+        }
     }
 
     private function setTimeMemoryLimit(): void
@@ -72,7 +101,7 @@ class ScrapingJob implements ShouldQueue
         // Increase memory limit to 512MB
         ini_set('memory_limit', '512M');
 
-        // Increase max execution time to 300 seconds (10 minutes)
-        ini_set('max_execution_time', 600);
+        // Increase max execution time to 1200 seconds (20 minutes)
+        ini_set('max_execution_time', 1200);
     }
 }
