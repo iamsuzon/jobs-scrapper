@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
                 "name" => "Admin",
                 "username" => "admin",
                 "email" => "misujon01@gmail.com",
-                "password" => \Hash::make("12345678"),
+                "password" => \Hash::make("$12345678"),
                 "pin" => \Hash::make("1144"),
                 "role_type" => 1,
             ]

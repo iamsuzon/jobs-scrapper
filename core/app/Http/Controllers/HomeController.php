@@ -180,6 +180,7 @@ class HomeController extends Controller
     public function updateDatabase()
     {
         \Artisan::call('migrate');
+        \Artisan::call('db:seed');
         \Artisan::call('optimize:clear');
 
         return back()->with('success', 'Database has been updated successfully!');
