@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('search:jobs')->everyFiveMinutes();
+         $schedule->command('search:jobs')->daily();
     }
 
     /**

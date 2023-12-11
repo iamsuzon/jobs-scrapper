@@ -52,10 +52,11 @@ class LoginController extends Controller
     {
         $validated = $this->validate($request, [
             'email'   => 'required|email',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
+            'remember_me' => 'nullable'
         ]);
 
-        if (auth()->attempt(['email' => e(strip_tags($validated['email'])), 'password' => e(strip_tags($validated['password']))])) {
+        if (auth()->attempt(['email' => e(strip_tags($validated['email'])), 'password' => e(strip_tags($validated['password']))], $validated['remember_me'] ?? false)) {
             return redirect()->intended('dashboard');
         }
 

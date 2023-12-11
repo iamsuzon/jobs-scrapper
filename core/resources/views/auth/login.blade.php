@@ -36,6 +36,14 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control w-100" id="password" name="password" required>
             </div>
+
+            <div class="form-group">
+                <label>
+                    <input name="remember_me"  type="checkbox">
+                    Remember me
+                </label>
+            </div>
+
             <button type="submit" class="btn btn-primary mt-4">Login</button>
         </form>
     </div>
